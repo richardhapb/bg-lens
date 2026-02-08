@@ -18,7 +18,8 @@ class CreateBackgroundCheckService
       report = create_report(candidate)
       create_checks(report)
       create_webhook_delivery(report) if webhook_url.present?
-      enqueue_processing(report)
+
+      # Enqueue occurres in Report model after commit
 
       Result.success(report)
     end
@@ -59,10 +60,6 @@ class CreateBackgroundCheckService
       status: "pending",
       attempts: 0
     )
-  end
-
-  def enqueue_processing(report)
-    ProcessReportJob.perform_later(report.id)
   end
 
   class Result

@@ -1,6 +1,9 @@
 class Report < ApplicationRecord
   include AASM
 
+  # Trigger the processing after commit
+  after_commit :enqueue_processing, on: :create
+
   belongs_to :candidate
   has_many :checks, dependent: :destroy
   has_many :webhook_deliveries, dependent: :destroy
@@ -33,10 +36,14 @@ class Report < ApplicationRecord
   end
 
   def all_checks_completed?
-    checks.all? { |c| c.status == "completed" }
+    checks.where.not(status: "completed").none?
   end
 
   def trigger_webhooks
     WebhookDeliveryJob.perform_later(id)
+  end
+
+  def enqueue_processing
+    ProcessReportJob.perform_later(id)
   end
 end

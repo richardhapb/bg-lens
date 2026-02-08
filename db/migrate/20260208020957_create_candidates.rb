@@ -1,10 +1,10 @@
 class CreateCandidates < ActiveRecord::Migration[8.1]
   def change
     create_table :candidates do |t|
-      t.string :name
-      t.string :ssn
+      t.string :name, null: false
+      t.string :ssn, null: false
+      t.string :email, null: false
       t.date :dob
-      t.string :email
 
       t.timestamps
     end
