@@ -41,9 +41,10 @@ RSpec.describe Report, type: :model do
       end
 
       it 'enqueues webhook delivery job' do
+        webhook = create(:webhook_delivery, report: report, status: "pending")
         expect {
           report.complete!
-        }.to have_enqueued_job(WebhookDeliveryJob).with(report.id)
+        }.to have_enqueued_job(WebhookDeliveryJob).with(webhook.id)
       end
     end
 

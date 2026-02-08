@@ -8,7 +8,7 @@ class CreateReports < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_check_constraint :checks,
+    add_check_constraint :status,
       "status IN ('pending', 'processing', 'completed', 'failed')",
       name: "checks_status_valid"
 

@@ -9,5 +9,8 @@ class CreateWebhookDeliveries < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+    add_check_constraint :status,
+      "status IN ('pending', 'delivered', 'failed')",
+      name: "checks_status_valid"
   end
 end

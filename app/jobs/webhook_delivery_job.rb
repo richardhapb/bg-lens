@@ -2,11 +2,11 @@ class WebhookDeliveryJob < ApplicationJob
   queue_as :default
   retry_on StandardError, wait: :polynomially_longer, attempts: 5
 
-  def perform(report_id)
-    report = Report.find(report_id)
-    delivery = report.webhook_deliveries.pending.first
-
+  def perform(delivery_id)
+    delivery = WebhookDelivery.pending.find_by(id: delivery_id)
     return unless delivery
+
+    report = delivery.report
 
     payload = build_payload(report)
 

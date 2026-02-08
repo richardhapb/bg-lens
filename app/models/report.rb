@@ -40,7 +40,9 @@ class Report < ApplicationRecord
   end
 
   def trigger_webhooks
-    WebhookDeliveryJob.perform_later(id)
+    webhook_deliveries.pending.find_each do |delivery|
+      WebhookDeliveryJob.perform_later(delivery.id)
+    end
   end
 
   def enqueue_processing
