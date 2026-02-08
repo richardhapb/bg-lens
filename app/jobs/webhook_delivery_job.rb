@@ -14,14 +14,14 @@ class WebhookDeliveryJob < ApplicationJob
       delivery.url,
       body: payload.to_json,
       headers: {
-        'Content-Type' => 'application/json',
-        'X-Webhook-Signature' => generate_signature(payload)
+        "Content-Type" => "application/json",
+        "X-Webhook-Signature" => generate_signature(payload)
       },
       timeout: 10
     )
 
     if response.success?
-      delivery.update!(status: 'delivered', payload: payload)
+      delivery.update!(status: "delivered", payload: payload)
     else
       handle_failure(delivery, "HTTP #{response.code}: #{response.message}")
     end
@@ -53,14 +53,14 @@ class WebhookDeliveryJob < ApplicationJob
 
   def generate_signature(payload)
     # In production, use a secret key from credentials
-    secret = Rails.application.secret_key_base || 'development-secret'
-    OpenSSL::HMAC.hexdigest('SHA256', secret, payload.to_json)
+    secret = Rails.application.secret_key_base || "development-secret"
+    OpenSSL::HMAC.hexdigest("SHA256", secret, payload.to_json)
   end
 
   def handle_failure(delivery, message)
     delivery.increment!(:attempts)
     if delivery.attempts >= 5
-      delivery.update!(status: 'failed')
+      delivery.update!(status: "failed")
       Rails.logger.error "Webhook delivery #{delivery.id} permanently failed: #{message}"
     else
       Rails.logger.warn "Webhook delivery #{delivery.id} attempt #{delivery.attempts} failed: #{message}"

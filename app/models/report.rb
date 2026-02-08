@@ -8,7 +8,7 @@ class Report < ApplicationRecord
   validates :idempotency_key, presence: true, uniqueness: true
   validates :status, presence: true
 
-  aasm column: 'status' do
+  aasm column: "status" do
     state :pending, initial: true
     state :processing
     state :completed
@@ -28,12 +28,12 @@ class Report < ApplicationRecord
     end
 
     event :mark_failed do
-      transitions from: [:pending, :processing], to: :failed
+      transitions from: [ :pending, :processing ], to: :failed
     end
   end
 
   def all_checks_completed?
-    checks.all? { |c| c.status == 'completed' }
+    checks.all? { |c| c.status == "completed" }
   end
 
   def trigger_webhooks

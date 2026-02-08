@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # API routes
   namespace :api do
     namespace :v1 do
-      resources :background_checks, only: [:create, :show]
+      resources :background_checks, only: [ :create, :show ]
     end
   end
 

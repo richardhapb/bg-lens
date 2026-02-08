@@ -20,10 +20,10 @@ class CriminalCheckStrategy
   def generate_mock_offenses
     return [] if rand > 0.3
 
-    [{
+    [ {
       type: %w[misdemeanor felony infraction].sample,
       date: rand(1..10).years.ago.to_date.iso8601,
-      jurisdiction: ['San Francisco County', 'Los Angeles County', 'New York County'].sample
-    }]
+      jurisdiction: [ "San Francisco County", "Los Angeles County", "New York County" ].sample
+    } ]
   end
 end

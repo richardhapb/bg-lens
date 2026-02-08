@@ -21,7 +21,7 @@ module Api
         report = Report.find(params[:id])
         render json: ReportSerializer.new(report).as_json
       rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Report not found' }, status: :not_found
+        render json: { error: "Report not found" }, status: :not_found
       end
 
       private
@@ -31,7 +31,7 @@ module Api
       end
 
       def idempotency_key
-        request.headers['Idempotency-Key'] || SecureRandom.uuid
+        request.headers["Idempotency-Key"] || SecureRandom.uuid
       end
     end
   end

@@ -4,5 +4,5 @@ class WebhookDelivery < ApplicationRecord
   validates :url, presence: true
   validates :status, inclusion: { in: %w[pending delivered failed] }
 
-  scope :pending, -> { where(status: 'pending') }
+  scope :pending, -> { where(status: "pending") }
 end

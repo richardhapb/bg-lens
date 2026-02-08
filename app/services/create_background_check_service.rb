@@ -25,7 +25,7 @@ class CreateBackgroundCheckService
   rescue ActiveRecord::RecordInvalid => e
     Result.failure(e.record.errors.full_messages)
   rescue StandardError => e
-    Result.failure([e.message])
+    Result.failure([ e.message ])
   end
 
   private
@@ -42,13 +42,13 @@ class CreateBackgroundCheckService
     Report.create!(
       candidate: candidate,
       idempotency_key: idempotency_key,
-      status: 'pending'
+      status: "pending"
     )
   end
 
   def create_checks(report)
     check_types.each do |type|
-      report.checks.create!(check_type: type, status: 'pending')
+      report.checks.create!(check_type: type, status: "pending")
     end
   end
 
@@ -56,7 +56,7 @@ class CreateBackgroundCheckService
     WebhookDelivery.create!(
       report: report,
       url: webhook_url,
-      status: 'pending',
+      status: "pending",
       attempts: 0
     )
   end

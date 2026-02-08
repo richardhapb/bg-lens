@@ -3,7 +3,7 @@ class EmploymentCheckStrategy
     simulate_api_delay
 
     {
-      verified: [true, false].sample,
+      verified: [ true, false ].sample,
       previous_employers: rand(1..5),
       discrepancies: generate_discrepancies,
       checked_at: Time.current.iso8601
@@ -19,6 +19,6 @@ class EmploymentCheckStrategy
   def generate_discrepancies
     return [] if rand > 0.2
 
-    ['Employment dates mismatch', 'Title discrepancy'].sample(1)
+    [ "Employment dates mismatch", "Title discrepancy" ].sample(1)
   end
 end

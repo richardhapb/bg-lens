@@ -4,7 +4,7 @@ class ProcessCheckJob < ApplicationJob
 
   def perform(check_id)
     check = Check.find(check_id)
-    return if check.status == 'completed'
+    return if check.status == "completed"
 
     check.process!
   rescue StandardError => e

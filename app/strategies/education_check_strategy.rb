@@ -3,8 +3,8 @@ class EducationCheckStrategy
     simulate_api_delay
 
     {
-      degree_verified: [true, false].sample,
-      institution: ['Stanford University', 'MIT', 'UC Berkeley', 'Harvard University'].sample,
+      degree_verified: [ true, false ].sample,
+      institution: [ "Stanford University", "MIT", "UC Berkeley", "Harvard University" ].sample,
       graduation_year: rand(2010..2023),
       checked_at: Time.current.iso8601
     }

@@ -5,17 +5,17 @@ class Check < ApplicationRecord
   validates :status, inclusion: { in: %w[pending processing completed failed] }
 
   def process!
-    update!(status: 'processing')
+    update!(status: "processing")
     strategy = check_strategy
     result = strategy.execute(report.candidate)
 
     update!(
-      status: 'completed',
+      status: "completed",
       result: result,
       provider_response: result
     )
   rescue StandardError => e
-    update!(status: 'failed', result: { error: e.message })
+    update!(status: "failed", result: { error: e.message })
     raise
   end
 
@@ -23,9 +23,9 @@ class Check < ApplicationRecord
 
   def check_strategy
     case check_type
-    when 'criminal' then CriminalCheckStrategy.new
-    when 'employment' then EmploymentCheckStrategy.new
-    when 'education' then EducationCheckStrategy.new
+    when "criminal" then CriminalCheckStrategy.new
+    when "employment" then EmploymentCheckStrategy.new
+    when "education" then EducationCheckStrategy.new
     else
       raise "Unknown check type: #{check_type}"
     end
