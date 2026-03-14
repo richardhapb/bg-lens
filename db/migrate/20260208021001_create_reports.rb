@@ -3,14 +3,14 @@ class CreateReports < ActiveRecord::Migration[8.1]
     create_table :reports do |t|
       t.references :candidate, null: false, foreign_key: true
       t.string :status, null: false, default: "pending"
-      t.string :idempotency_key, null: false, unique: true
+      t.string :idempotency_key, null: false
       t.datetime :completed_at
 
       t.timestamps
     end
-    add_check_constraint :status,
+    add_check_constraint :reports,
       "status IN ('pending', 'processing', 'completed', 'failed')",
-      name: "checks_status_valid"
+      name: "reports_status_valid_chk"
 
     add_index :reports, :idempotency_key, unique: true
   end
